@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Todo</h1>
+    <input type="text" placeholder="Add your todo here">
+    <button onclick="addtodo()">Add Todo</button>
+    <script>
+        const divel=document.createElement("div");
+        divel.setAttribute("id","todo");
+        document.body.appendChild(divel);
+// this is my state
+        const todos =[];
+        let count=0;
+// below functions are my components which changes the state 
+        function addtodo(){
+            todos.push({
+                id:count,
+                title:document.querySelector("input").value
+            });
+            count=count+1;
+            render();
+        }
+
+        function deletetodo(id){
+            todos.splice(id,1);
+            count=count-1;
+            render();
+        }
+
+        function updatetodo(id){
+            todos[id].title=document.querySelector("input").value;
+            render();
+        }
+// this is handled by react ie the dom manipulation.
+        function render(){
+            divel.innerHTML="";
+            for(let i=0;i<todos.length;i++){
+
+                let newdiv=document.createElement("div");
+                let h4el=document.createElement("h4");
+                let newbt=document.createElement("button");
+                let newup=document.createElement("button");
+
+                h4el.innerHTML=todos[i].title;
+                newbt.innerHTML="Delete";
+                newup.innerHTML="Update";
+
+                newbt.setAttribute("onclick",`deletetodo(${i})`);
+                newup.setAttribute("onclick",`updatetodo(${i})`);
+
+                newdiv.appendChild(h4el);
+                newdiv.appendChild(newbt);
+                newdiv.appendChild(newup);
+                
+                divel.appendChild(newdiv);
+            }
+        }
+    </script>
+</body>
+</html>

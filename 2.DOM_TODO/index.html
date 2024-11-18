@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM_TODO</title>
+</head>
+<body>
+    <h1>TODO</h1>
+    <input type="text" placeholder="Add your todo here">
+    <button onclick="addtodo()">addtodo</button>
+    <script>
+        let count=1;
+        function addtodo(){
+            let ip=document.querySelector('input');
+            let ipval=ip.value;
+
+            let newdiv=document.createElement('div');
+            newdiv.setAttribute("id",count);
+            newdiv.innerHTML=`<input type="checkbox" onclick="strike(${count})">${ipval}</input></br><button onclick="deletetodo(${count})">delete</button><button onclick="updatetodo(${count})">update</button>`;
+
+            document.body.appendChild(newdiv);
+            count++;
+        }
+        function updatetodo(id){
+            let upel=document.getElementById(id);
+            console.log(upel.innerHTML);
+            let ipval=document.querySelector('input').value;
+            upel.innerHTML=`<input type="checkbox"  onclick="strike(${id})">${ipval}</input><button onclick="deletetodo(${id})">delete</button>\t<button onclick="updatetodo(${id})">update</button>`;
+        }
+        function deletetodo(id){
+            document.getElementById(id).remove();
+        }
+        function strike(id){
+            document.getElementById(id).style.textDecoration="line-through";
+        }
+        </script>
+</body>
+</html>

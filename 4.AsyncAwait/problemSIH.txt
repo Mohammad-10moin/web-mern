@@ -1,0 +1,38 @@
+the below is my problem statement
+problem statement category: Software
+problem statement:
+1.The problem statement envisages development of Few Shot Language Agnostic Key Word Spotting system (FSLAKWS) system which would be able to localize and classify the presence of keywords of Interest in a variable duration audio file.
+2. The system to be able to function at high performance when very few (Few Shot) examples per keyword are given for training. 
+The below should be the features of Few Shot Language Agnostic Key Word Spotting system:
+(a) The system should be language agnostic.
+(b) The system should be able to handle audio files at various sample rates (8k-48k). 
+(c) The system should be able to upgrade to additional keywords.
+note: For creating a system with Few Shot capabilities, the participants may need to do pre-training of their model on a large corpus.
+The criteria based on which the performance of the Few Shot Language Agnostic Key Word Spotting system decided are:
+ (a) Metric.
+ (b) Latency and throughput of the responses.
+ (c) Smaller model size.
+The organisation which proposed this problem statement is :
+Organization : National Technical Research Organisation (NTRO).
+The theme of this project is Smart Automation.
+
+Using the below context of another problem statement, give same to same starting statements, detailed steps and use case for my problem given above :
+here the context of another problem statement:
+>We aim to develop a model that can take a video file as input. By employing a combination of Generative Models and Transformers, we process the video file through several stages. Ultimately, the output is a video file with its original audio track replaced by the selected dubbed languages.
+To accomplish this, we are currently in the process of creating a WebApp. This application will seamlessly integrate the model, providing users with an intuitive interface for interacting with it.
+>Here are the detailed steps we follow to construct the model:
+1.Audio Extraction from an English Video:
+In this initial step, we extract the audio track from the input video file using MoviePy Python Package. This audio track contains the spoken dialogue in English.
+2.Audio to English text transcription:
+Next, we convert the extracted audio into written English text using Whisper Transformer. This process involves using advanced speech recognition technology to accurately transcribe the spoken words.
+3.English text to regional language text:
+Subsequently, we employ translation techniques to convert the English text into the desired regional language using PaLM LLM’s. This ensures that the dubbed audio will be in the preferred language.
+4.Translated regional text to speech:
+Here, we leverage text-to-speech synthesis to transform the translated regional text into an audio track in author voice. We use TTS model for accomplishing this step. This step is crucial in generating natural-sounding speech in the chosen language.
+5.Syncing up the newly generated audio track to the video:
+Finally, we synchronize the newly generated audio track with the video. This ensures that the dubbed audio aligns perfectly with the visual content, providing a seamless viewing experience.
+USECASES:
+1.Wider Audience Reach :  Dubbing allows content creators to reach a broader audience by making their videos accessible to people who may not understand English fluently or at all.
+2.Education and Training : Educational videos, documentaries, and training materials often require dubbing to ensure that the content is easily comprehensible to learners who speak different languages. 
+3.Market Expansion : For businesses looking to expand into new markets, dubbing is a cost-effective way to adapt their promotional and informational materials for local consumers, increasing their chances of success.
+
