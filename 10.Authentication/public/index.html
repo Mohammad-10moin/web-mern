@@ -16,6 +16,7 @@
             password:password
         })
         alert("you are signed up");
+        document.getElementById("signup").style.display= "none";
     }
     async function signin(){
         const username=document.getElementById("in-name").value;
@@ -27,10 +28,11 @@
         })
 
         localStorage.setItem("token",response.data.token);
-
         alert("you logged in");
+        document.getElementsById("signin").style.display="none";
+        information();
     }
-
+    
     async function information(){
         const response=await axios.get("http://localhost:3000/me",{
             headers: {
@@ -43,17 +45,18 @@
 
     function logout(){
         localStorage.removeItem("token");
+        document.getElementById("info").innerHTML="";
     }
 
 </script>
 <body>
-    <div class="signup">
+    <div id="signup">
         <b>SignUp</b>
         <input type="text" id="up-name" name="username" placeholder="username">
         <input type="text" id="up-password" name="password" placeholder="password">
         <button onclick="signup()">submit</button>
     </div>
-    <div class="signin">
+    <div id="signin">
         <b>SignIn</b>
         <input type="text" id="in-name" name="username" placeholder="username">
         <input type="text" id="in-password" name="password" placeholder="password">
@@ -61,7 +64,7 @@
     </div>
     <b>UserInfo:</b>
     <div id="info"></div>
-    <div class="logout">
+    <div id="logout">
         <button onclick="logout()">logout</button>
     </div>
 </body>
