@@ -2,7 +2,7 @@ const express= require("express");
 const app = express();
 
 const mongoose=require("mongoose");
-mongoose.connect("mongodb+srv://moinuddin10code:Moin_10Mongo@cluster0.ohlry.mongodb.net/todo-app-database");
+mongoose.connect("mongodb+srv://<>@cluster0.ohlry.mongodb.net/todo-app-database");
 
 const {userModel,todoModel}=require("./db"); //this is the way how we import in js from other js files
 
