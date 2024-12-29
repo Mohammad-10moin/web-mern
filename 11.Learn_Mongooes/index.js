@@ -1,8 +1,11 @@
+const bcrypt = require("bcrypt");
+const {z}= require("zod");
+
 const express= require("express");
 const app = express();
 
 const mongoose=require("mongoose");
-mongoose.connect("mongodb+srv://<>@cluster0.ohlry.mongodb.net/todo-app-database");
+mongoose.connect("");
 
 const {userModel,todoModel}=require("./db"); //this is the way how we import in js from other js files
 
@@ -12,18 +15,46 @@ JWT_SECRET="Secret Key";
 app.use(express.json());//we need to use this to get the values from req.body 
 
 app.post("/signup",async (req,res)=>{
+
+    const requiredData= z.object({
+        email:z.string().min(8,"email must be atleast 8 characters").max(20,"email must be at max 20 characters").email("Invalid email address"),
+        password:z.string().min(8).max(128)
+            .regex(/[a-z]/,"password must contain atleast one small letter")
+            .regex(/[A-Z]/,"password must contain atleast one capital letter")
+            .regex(/[0-9]/,"password must contain atleast one digit")
+            .regex(/[@#$%&*!`~?*]/,"password must contain atleast one special character"),
+        name:z.string().min(3).max(20)
+    })
     
+    const successfulParsed= requiredData.safeParse(req.body);
+    if(!successfulParsed.success){
+        res.json({
+            msg:successfulParsed.error.issues[0].message,
+            // error:successfulParsed.error
+        })
+        return
+    }
+
     const email=req.body.email;
     const password=req.body.password;
     const name=req.body.name;
 
-    await userModel.create({
-        email:email,
-        password:password,
-        name:name
-    })
+    try{
+        const hashedpswd=await bcrypt.hash(password,5);
+        await userModel.create({
+            email:email,
+            password:hashedpswd,
+            name:name
+        })
+    }catch(e){
+        console.log(e);
+        res.status(403).json({
+            msg:"Duplicate email"
+        })
+        return;
+    }
     res.json({
-        msg:"You are logged in"
+        msg:"You are signed up"
     })
 });
 app.post("/login",async (req,res)=>{
@@ -31,15 +62,24 @@ app.post("/login",async (req,res)=>{
     const password=req.body.password;
 
     const user= await userModel.findOne({
-        email:email,
-        password:password
+        email:email
+        // password:password/
     })
-    if(user){
+
+    if(!user){
+        res.status(403).json({
+            msg:"No such user found"
+        })
+        return;
+    }
+
+    const pswdMatch= await bcrypt.compare(password,user.password);
+    if(pswdMatch){
         const token=jwt.sign({
             id:user._id.toString()
         },JWT_SECRET);
         res.json({
-            msg:"you are signed in",
+            msg:"you are logged in",
             token:token
         })
     }
