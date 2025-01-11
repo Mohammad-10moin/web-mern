@@ -5,6 +5,9 @@ const {z}=require("zod");
 const bcrypt=require("bcrypt");
 const { adminModel } = require("../db");
 
+const jwt=require("jsonwebtoken");
+const jwt_secret="randomkey"
+
 adminRoute.post("/signup",async (req,res)=>{
     
     const required_data=z.object({
@@ -55,8 +58,34 @@ adminRoute.post("/signup",async (req,res)=>{
 
 })
 
-adminRoute.post("/login",(req,res)=>{
-    
+adminRoute.post("/signin",async (req,res)=>{
+    const { email, password}=req.body;
+    const fuser=adminModel.find({
+        email:email
+    })
+    if(!fuser){
+        res.status(403).json({
+            msg:"Signup first!!"
+        })
+        return;
+    }
+
+    const iscorrectpwd=await bcrypt.compare(password,fuser.password);
+    if(iscorrectpwd){
+        const token=jwt.sign({
+            id:fuser._id.toString()
+        },jwt_secret)
+        res.json({
+            msg:"you are signed in ",
+            token:token
+        })
+    }
+    else{
+        res.status(403).json({
+            msg:"Incorrect credentials"
+        })
+        return;
+    }
 })
 
 adminRoute.post("/",(req,res)=>{
