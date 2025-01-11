@@ -54,7 +54,7 @@ userRouter.post("/signup",async (req,res)=>{
 
 userRouter.post("/signin",async (req,res)=>{
     const {email,password}=req.body;
-    const founduser=userModel.find({
+    const founduser=await userModel.find({
         email:email
     })
 

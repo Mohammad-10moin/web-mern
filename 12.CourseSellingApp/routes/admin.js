@@ -60,7 +60,7 @@ adminRoute.post("/signup",async (req,res)=>{
 
 adminRoute.post("/signin",async (req,res)=>{
     const { email, password}=req.body;
-    const fuser=adminModel.find({
+    const fuser=await adminModel.find({
         email:email
     })
     if(!fuser){
