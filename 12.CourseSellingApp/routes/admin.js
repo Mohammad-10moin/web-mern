@@ -6,7 +6,7 @@ const bcrypt=require("bcrypt");
 const { adminModel } = require("../db");
 
 const jwt=require("jsonwebtoken");
-const jwt_secret="randomkey"
+const {jwt_secret_admin}=require("../config");
 
 adminRoute.post("/signup",async (req,res)=>{
     
@@ -60,7 +60,7 @@ adminRoute.post("/signup",async (req,res)=>{
 
 adminRoute.post("/signin",async (req,res)=>{
     const { email, password}=req.body;
-    const fuser=await adminModel.find({
+    const fuser=await adminModel.findOne({
         email:email
     })
     if(!fuser){
@@ -74,7 +74,7 @@ adminRoute.post("/signin",async (req,res)=>{
     if(iscorrectpwd){
         const token=jwt.sign({
             id:fuser._id.toString()
-        },jwt_secret)
+        },jwt_secret_admin)
         res.json({
             msg:"you are signed in ",
             token:token

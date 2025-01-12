@@ -17,10 +17,10 @@ mongoose.connect(process.env.DB_URI)
 
 const {userModel , adminModel, courseModel, purchaseModel}=require("./db");
 
+app.use(express.json());
 app.use("/user",userRouter)
 app.use("/course",courseRoute)
 app.use("/admin",adminRoute)
-app.use(express.json());
 
 
 

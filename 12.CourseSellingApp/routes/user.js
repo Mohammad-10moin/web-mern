@@ -6,7 +6,7 @@ const bcrypt=require("bcrypt");
 const { userModel } = require("../db");
 
 const jwt=require("jsonwebtoken");
-const jwt_secret="secretkey"
+const { jwt_secret_user } = require("../config");
 
 userRouter.post("/signup",async (req,res)=>{
     
@@ -24,12 +24,13 @@ userRouter.post("/signup",async (req,res)=>{
     const successfulparsed=reqdata.safeParse(req.body);
     if(!successfulparsed.success){
         res.json({
-            msg:successfulparsed.error.issues[0].message
+            msg:successfulparsed.error.issues[0].message,
+            message:successfulparsed.error
         })
         return;
     }
 
-    const {email, firstname, lastname,password}=req.body;
+    const {email, firstname, lastname,password}=successfulparsed.data;
 
     try{
         const hpswd=await bcrypt.hash(password,3);
@@ -37,7 +38,7 @@ userRouter.post("/signup",async (req,res)=>{
             firstname:firstname,
             lastname:lastname,
             email:email,
-            password:password
+            password:hpswd
         })
     }
     catch(e){
@@ -54,7 +55,7 @@ userRouter.post("/signup",async (req,res)=>{
 
 userRouter.post("/signin",async (req,res)=>{
     const {email,password}=req.body;
-    const founduser=await userModel.find({
+    const founduser=await userModel.findOne({
         email:email
     })
 
@@ -66,10 +67,10 @@ userRouter.post("/signin",async (req,res)=>{
     }
 
     const correctpswd=await bcrypt.compare(password,founduser.password);
-    if(!correctpswd){
+    if(correctpswd){
         const token=jwt.sign({
             id:founduser._id.toString()
-        },jwt_secret)
+        },jwt_secret_user)
         res.json({
             msg:"you are signed in",
             token:token
@@ -83,7 +84,7 @@ userRouter.post("/signin",async (req,res)=>{
 })
 
 userRouter.get("/purchases",(req,res)=>{
-
+    
 })
 
 module.exports={
