@@ -3,11 +3,11 @@ const adminRoute=Router();
 
 const {z}=require("zod");
 const bcrypt=require("bcrypt");
-const { adminModel } = require("../db");
+const { adminModel, courseModel } = require("../db");
 
 const jwt=require("jsonwebtoken");
 const {jwt_secret_admin}=require("../config");
-
+const {adminMiddleware}=require("../middlewares/admin")
 adminRoute.post("/signup",async (req,res)=>{
     
     const required_data=z.object({
@@ -88,20 +88,120 @@ adminRoute.post("/signin",async (req,res)=>{
     }
 })
 
-adminRoute.post("/",(req,res)=>{
+adminRoute.use(adminMiddleware);
 
+adminRoute.post("/course",async (req,res)=>{
+    const adminId=req.userid;
+
+    const{title,description,rating,imageurl,price}=req.body;
+
+    const course= await courseModel.create({
+        title,description,rating,imageurl,price,creatorID:adminId
+    })
+    res.json({
+        msg:`course ${title} created by ${adminId}`,
+        courseid:course._id
+    })
 })
 
-adminRoute.delete("/",(req,res)=>{
-
+adminRoute.delete("/course",async (req,res)=>{
+    const adminId=req.userid;
+    const {title}=req.body;
+    const foundcourse=await courseModel.findOne({title});
+    if(!foundcourse ){
+        res.status(403).json({
+            msg:"No such course found"
+        })
+        return;
+    }
+    else if(foundcourse.creatorID!=adminId){
+        res.status(403).json({
+            msg:"You are not the creator of this course"
+        })
+        return;
+    }
+    else{
+        await courseModel.findByIdAndDelete(foundcourse._id);
+        res.json({
+            msg:"course deleted successfully",
+            title :title
+        })
+    }
 })
 
-adminRoute.put("/",(req,res)=>{
+// adminRoute.put("/course",async (req,res)=>{
+//     const {title,description,rating,imageurl,price,course_id}=req.body;
+//     const adminId= req.userid;
 
-})
+//     console.log(course_id);
+//     console.log(adminId)
+//     const course= await courseModel.updateOne(
+//         {
+//             _id:course_id,
+//             creatorId:adminId
+            
+//         },
+//         {
+//             // $set:{
+//             title:title,
+//             description:description,
+//             rating:rating,
+//             imageurl:imageurl,
+//             price:price
+//         // }
+//     })
+//     res.json({
+//         msg:"Updated course",
+//         course:course
+//     })
+// })
 
-adminRoute.get("/all",(req,res)=>{
 
+adminRoute.put("/course", async (req, res) => {
+    const { title, description, rating, imageurl, price, course_id } = req.body;
+    const adminId = req.userid;
+
+    // console.log(course_id);
+    // console.log(adminId);
+
+    const course = await courseModel.updateOne(
+        {
+            _id: course_id,
+            creatorID: adminId
+        },
+        {
+            $set: {
+                title: title,
+                description: description,
+                rating: rating,
+                imageurl: imageurl,
+                price: price
+            }
+        }
+    );
+
+    if (course.modifiedCount === 0) {
+        res.status(404).json({
+            msg: "Course not found or you are not the creator"
+        });
+        return;
+    }
+
+    res.json({
+        msg: "Updated course",
+        course: course
+    });
+});
+
+adminRoute.get("/allCourses",async (req,res)=>{
+    const adminId=req.userid;
+    const courses = await courseModel.find({
+        creatorID:adminId
+    })
+    res.json({
+        msg:"All your Courses",
+        courses
+    })
 })
 
 module.exports={
