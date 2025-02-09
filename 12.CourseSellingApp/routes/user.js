@@ -3,7 +3,8 @@ const userRouter=Router();
 
 const{z}=require("zod");
 const bcrypt=require("bcrypt");
-const { userModel } = require("../db");
+const { userModel,purchaseModel, courseModel } = require("../db");
+const {userMiddleware}=require("../middlewares/user")
 
 const jwt=require("jsonwebtoken");
 const { jwt_secret_user } = require("../config");
@@ -83,8 +84,21 @@ userRouter.post("/signin",async (req,res)=>{
     }
 })
 
-userRouter.get("/purchases",(req,res)=>{
-    
+
+userRouter.get("/purchases",userMiddleware, async(req,res)=>{
+    const userid=req.userid;
+    const purchasedCourses=await purchaseModel.find({
+        userid:userid
+    })
+
+    const coursedata= await courseModel.find({
+        _id:{$in : purchasedCourses.map(x => x.courseid)}
+        // _id:purchasedCourses.courseid --can't get courseid without using the map function and to get the id , we need to use $in: constraint 
+    })
+    res.json({
+        purchasedCourses,
+        coursedata
+    })
 })
 
 module.exports={

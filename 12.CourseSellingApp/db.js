@@ -26,8 +26,8 @@ const course = new schema({
 })
 
 const purchases= new schema({
-    courseid:{type:schema.Types.ObjectId, ref: 'course'},
-    userid:{type:schema.Types.ObjectId, ref: 'user'}
+    userid:{type:schema.Types.ObjectId, ref: 'user'},
+    courseid:{type:schema.Types.ObjectId, ref: 'course'}
 })
 
 const userModel= mongoose.model("user",user);
