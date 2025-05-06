@@ -10,6 +10,11 @@ function App() {
 
 const ToggleComponent = () =>{
   const [isvisible,Setisvisble]=useState(false);
+  
+  // this is a state variable using useState hook
+  // state variable is the only way to re-render 
+  // re-rendering -- the react calls this specific part if there any change in state variable 
+
   return(
     <div>
       <button onClick={()=>{Setisvisble(!isvisible)}}>
