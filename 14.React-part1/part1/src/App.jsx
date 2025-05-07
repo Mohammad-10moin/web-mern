@@ -10,11 +10,15 @@ function App() {
 
   const [tabdata,Settabdata]=useState({})
 
+  const [loading,Setloading]=useState(false);
+
   useEffect(()=>{
+    Setloading(true);
     fetch("https://jsonplaceholder.typicode.com/todos/"+currentTab)
     .then(async res =>{
       const json=await res.json();
       Settabdata(json);
+      Setloading(false);
     })
   },[currentTab])
 
@@ -34,7 +38,7 @@ function App() {
           SetcurrentTab(4)
         }}  style={{color: currentTab==4? "red":"black"}}>todo 4</button>
         </div>
-        {tabdata.title}
+        {loading ? "Loading...":tabdata.title}
       </div>
   )
 }
