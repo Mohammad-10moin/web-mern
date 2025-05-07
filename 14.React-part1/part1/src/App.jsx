@@ -4,27 +4,26 @@ import { useEffect } from "react";
 
 function App() {
   
-  const [count,setcount]=useState(0);
-
-  function inc(){
-    setcount(count+1)
-  }
-
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      setcount(prev=>prev+1)
-    }, 1000);
-
-    return()=>{clearInterval(interval)}
-  },[])
+  const [currentTab,SetcurrentTab]=useState("tab1")
   
+// here we can see that the values inside the div can be directly given to useState hook instead of using document.getElementById
 
   return (
       <div style={{backgroundColor:"#dfe6e9",height:"100%",marginTop:30 }}>
-        {/* <div> <button onClick={inc}>increase count</button></div> */}
-          <div style={{backgroundColor:"red",color:"black",width:20,height:20,border:"1px solid black", borderRadius:20,display:"flex",justifyContent:"center"}}>
-            {count}
-          </div>  
+        <div>
+        <button onClick={()=>{
+          SetcurrentTab("tab1")
+        }}  style={{color: currentTab=="tab1"? "red":"black"}}>tab1</button>
+        <button onClick={()=>{
+          SetcurrentTab("tab2")
+        }}  style={{color: currentTab=="tab2"? "red":"black"}}>tab2</button>
+        <button onClick={()=>{
+          SetcurrentTab("tab3")
+        }}  style={{color: currentTab=="tab3"? "red":"black"}}>tab3</button>
+        <button onClick={()=>{
+          SetcurrentTab("tab4")
+        }}  style={{color: currentTab=="tab4"? "red":"black"}}>tab4</button>
+        </div>
       </div>
   )
 }
@@ -33,6 +32,43 @@ function App() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const [count,setcount]=useState(0);
+
+  // function inc(){
+  //   setcount(count+1)
+  // }
+
+  // useEffect(()=>{
+  //   const interval = setInterval(() => {
+  //     setcount(prev=>prev+1)
+  //   }, 1000);
+
+  //   return()=>{clearInterval(interval)}
+  // },[])
+
+
+
+{/* <div> <button onClick={inc}>increase count</button></div> */}
+          {/* <div style={{backgroundColor:"red",color:"black",width:20,height:20,border:"1px solid black", borderRadius:20,display:"flex",justifyContent:"center"}}>
+            {count}
+          </div>   */}
 
         {/* <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}> */}
         {/* </div> */}
