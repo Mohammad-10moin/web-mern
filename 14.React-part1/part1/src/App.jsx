@@ -18,7 +18,6 @@ function App() {
     return()=>{clearInterval(interval)}
   },[])
   
-  console.log("re-rendering");
 
   return (
       <div style={{backgroundColor:"#dfe6e9",height:"100%",marginTop:30 }}>
