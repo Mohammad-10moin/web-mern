@@ -4,26 +4,37 @@ import { useEffect } from "react";
 
 function App() {
   
-  const [currentTab,SetcurrentTab]=useState("tab1")
+  const [currentTab,SetcurrentTab]=useState(1)
   
-// here we can see that the values inside the div can be directly given to useState hook instead of using document.getElementById
+// here we can see that the values(ie 1) inside the div(todo 1) can be directly given to useState hook instead of using document.getElementById
+
+  const [tabdata,Settabdata]=useState({})
+
+  useEffect(()=>{
+    fetch("https://jsonplaceholder.typicode.com/todos/"+currentTab)
+    .then(async res =>{
+      const json=await res.json();
+      Settabdata(json);
+    })
+  },[currentTab])
 
   return (
       <div style={{backgroundColor:"#dfe6e9",height:"100%",marginTop:30 }}>
         <div>
         <button onClick={()=>{
-          SetcurrentTab("tab1")
-        }}  style={{color: currentTab=="tab1"? "red":"black"}}>tab1</button>
+          SetcurrentTab(1)
+        }}  style={{color: currentTab==1? "red":"black"}}>todo 1</button>
         <button onClick={()=>{
-          SetcurrentTab("tab2")
-        }}  style={{color: currentTab=="tab2"? "red":"black"}}>tab2</button>
+          SetcurrentTab(2)
+        }}  style={{color: currentTab==2? "red":"black"}}>todo 2</button>
         <button onClick={()=>{
-          SetcurrentTab("tab3")
-        }}  style={{color: currentTab=="tab3"? "red":"black"}}>tab3</button>
+          SetcurrentTab(3)
+        }}  style={{color: currentTab==3? "red":"black"}}>todo 3</button>
         <button onClick={()=>{
-          SetcurrentTab("tab4")
-        }}  style={{color: currentTab=="tab4"? "red":"black"}}>tab4</button>
+          SetcurrentTab(4)
+        }}  style={{color: currentTab==4? "red":"black"}}>todo 4</button>
         </div>
+        {tabdata.title}
       </div>
   )
 }
