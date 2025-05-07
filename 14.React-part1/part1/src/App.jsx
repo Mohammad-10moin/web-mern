@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { PostComponent } from "./Post"
+import { useEffect } from "react";
 
 function App() {
   
@@ -8,9 +9,14 @@ function App() {
   function inc(){
     setcount(count+1)
   }
-  // setInterval(() => {
-  //   setcount(count+1)
-  // }, 1000);
+
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      setcount(prev=>prev+1)
+    }, 1000);
+
+    return()=>{clearInterval(interval)}
+  },[])
   
   console.log("re-rendering");
 
