@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes,Route, Link } from "react-router-dom"
+import { BrowserRouter,Routes,Route, Link, useNavigate } from "react-router-dom"
 
 function App() {
 
@@ -31,9 +31,12 @@ function Home(){
 }
 
 function Blogs(){
+  // Let's understand useNavigate hook to navigate to a particular route
+  const navigate=useNavigate();
   return(
     <div>
       The Blogs component 
+      <button onClick={()=>navigate("/")}>Go to Home</button>
     </div>
   )
 }
