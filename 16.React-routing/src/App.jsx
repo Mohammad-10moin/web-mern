@@ -16,6 +16,8 @@ function App() {
           <Route path="blogs" element={<Blogs />} />
   {/* Here the path indicates different types of Routes and element indicates different component to render when we go to   particular route */}
 
+          <Route path="*" element={<Error404 />} />
+
         </Routes>
       </BrowserRouter>
     </div>
@@ -31,15 +33,24 @@ function Home(){
 }
 
 function Blogs(){
-  // Let's understand useNavigate hook to navigate to a particular route
-  const navigate=useNavigate();
   return(
     <div>
       The Blogs component 
-      <button onClick={()=>navigate("/")}>Go to Home</button>
     </div>
   )
 }
 
+function Error404(){
+  // Let's understand useNavigate hook to navigate to a particular route
+  const navigate=useNavigate();
+  return(
+    <div>
+      SOrrY paGe NoTFoUnD 
+      <br />
+      The Error404 component 
+      <button onClick={()=>navigate("/")}>Go to Home</button>
+    </div>
+  )
+}
 
 export default App
