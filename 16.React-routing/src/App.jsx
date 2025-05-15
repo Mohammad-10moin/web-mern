@@ -1,28 +1,51 @@
 import { BrowserRouter,Routes,Route, Link, useNavigate } from "react-router-dom"
 
 function App() {
-
+// Here let's write code to focus the first input box onclicking submit
   return (
     <div>
-      <BrowserRouter>
-        <Link to="/">Home</Link>
-        |
-        <Link to="/blogs">Blogs</Link>
-        <Routes>
-
-          <Route index element={<Home />} />
-  {/* Here the index indicate the / route i.e. path= / and element is Home component */}
-
-          <Route path="blogs" element={<Blogs />} />
-  {/* Here the path indicates different types of Routes and element indicates different component to render when we go to   particular route */}
-
-          <Route path="*" element={<Error404 />} />
-
-        </Routes>
-      </BrowserRouter>
+      SignUp
+      <input id="one" type="text" />
+      <input type="text" />
+      <button onClick={()=>{
+        document.getElementById("one").focus()
+      }}>submit</button>
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //     <BrowserRouter>
+  //       <Link to="/">Home</Link>
+  //       |
+  //       <Link to="/blogs">Blogs</Link>
+  //       <Routes>
+
+  //         <Route index element={<Home />} />
+  // {/* Here the index indicate the / route i.e. path= / and element is Home component */}
+
+  //         <Route path="blogs" element={<Blogs />} />
+  // {/* Here the path indicates different types of Routes and element indicates different component to render when we go to   particular route */}
+
+  //         <Route path="*" element={<Error404 />} />
+
+  //       </Routes>
+      // </BrowserRouter>
 
 function Home(){
   return(
