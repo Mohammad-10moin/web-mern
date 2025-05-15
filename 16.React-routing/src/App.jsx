@@ -1,14 +1,17 @@
+import { useRef } from "react"
 import { BrowserRouter,Routes,Route, Link, useNavigate } from "react-router-dom"
 
 function App() {
+  const focusRef=useRef();
 // Here let's write code to focus the first input box onclicking submit
+// Now let's use useRef to focus 
   return (
     <div>
-      SignUp
-      <input id="one" type="text" />
+      <b>signUp</b>
+      <input ref={focusRef} type="text" />
       <input type="text" />
       <button onClick={()=>{
-        document.getElementById("one").focus()
+        focusRef.current.focus();
       }}>submit</button>
     </div>
   )
