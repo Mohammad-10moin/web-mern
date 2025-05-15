@@ -1,18 +1,65 @@
-import { useRef } from "react"
+import { useRef, useState,useEffect } from "react"
 import { BrowserRouter,Routes,Route, Link, useNavigate } from "react-router-dom"
 
-function App() {
-  const focusRef=useRef();
-// Here let's write code to focus the first input box onclicking submit
-// Now let's use useRef to focus 
+
+function Chat() {
+  const [messages, setMessages] = useState(["Hello!", "How are you?"]);
+  const chatBoxRef = useRef(null);
+  const [newMsgCount,setnewMsgCount]=useState(0);
+  // Function to simulate adding new messages
+  const addMessage = () => {
+    setnewMsgCount(count=>count+1);
+    setMessages((prevMessages) => [...prevMessages, "New message!".concat(newMsgCount)]);
+  };
+
+  // Scroll to the bottom whenever a new message is added
+  useEffect(() => {
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  }, [messages]);
+
   return (
     <div>
-      <b>signUp</b>
-      <input ref={focusRef} type="text" />
-      <input type="text" />
-      <button onClick={()=>{
-        focusRef.current.focus();
-      }}>submit</button>
+      <div 
+        ref={chatBoxRef} 
+        style={{ height: "50px", overflowY: "scroll", border: "1px solid black" }}
+      >
+        {messages.map((msg, index) => (
+          <div key={index}>{msg}</div>
+        ))}
+      </div>
+      <button onClick={addMessage}>Add Message</button>
+    </div>
+  );
+}
+
+
+function App() {
+// Let's build a stopwatch to understand the use of useRef
+
+const [clock, setclock]=useState(0);
+// const [storeclock,setstoreclock]=useState();
+const storeclock=useRef();
+
+function startwatch(){
+  const watch= setInterval(()=>{
+    setclock(clock=>clock+1); 
+  },1000);
+  storeclock.current=watch;
+  // setstoreclock(watch)
+  // Here using setstoreclock is again re-rendering even if it is not shown in app component
+}
+
+function stopwatch(){
+  console.log(storeclock.current);
+  clearInterval(storeclock.current);
+}
+  return (
+    <div>
+      <Chat/>
+        {/* {clock}
+        <br />
+        <button onClick={startwatch}>Start</button>
+        <button onClick={stopwatch}>Stop</button> */}
     </div>
   )
 }
