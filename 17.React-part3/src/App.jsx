@@ -1,26 +1,25 @@
 import { useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div>
-
+      <Light/>
     </div>
   )
 }
 
 function Light(){
+  const [bulbon,setbulbon]=useState(true);
   return(
     <div>
-      <LightOn/>
-      <LightSwitch/>
+      <LightOn bulbon={bulbon}/>
+      <LightSwitch setbulbon={setbulbon}/>
     </div>
   )
 }
 
-function LightOn(){
-  const [bulbon,setbulbon]=useState(true);
+function LightOn({bulbon}){
   return(
     <div>
       {bulbon ? "bulbOn": "bulbOff"}
@@ -28,11 +27,13 @@ function LightOn(){
   )
 }
 
-function LightSwitch(){
+function LightSwitch({setbulbon}){
   return(
-    <button>Toggle</button>
+    <button onClick={()=>{
+      setbulbon(current=>!current)
+    }}>Toggle</button>
   )
 }
 
-// Here we can't get the setbulbon to toggle the state of the bulb inside the LightSwitch component --so we use rolling up the state --it's an unoptimal way 
+// Here by rolling up the state and passing the state variable as props to the children we can utilize the state variables inside the children by placing them in the parent
 export default App
