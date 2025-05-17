@@ -1,26 +1,33 @@
-import { useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
-// Now let's understand prop drilling 
+// Now let's use context api to avoid prop drilling
+const BulbContext= createContext();
 
 function App() {
   const [bulbon,setbulbon]=useState(true);
   return (
     <div>
-      <Light bulbon={bulbon} setbulbon={setbulbon}/>
+      <BulbContext.Provider value={{
+        bulbon:bulbon,
+        setbulbon:setbulbon
+      }}>
+      <Light/>
+      </BulbContext.Provider>
     </div>
   )
 }
 
-function Light({bulbon,setbulbon}){
+function Light(){
   return(
     <div>
-      <LightOn bulbon={bulbon}/>
-      <LightSwitch setbulbon={setbulbon}/>
+      <LightOn/>
+      <LightSwitch />
     </div>
   )
 }
 
-function LightOn({bulbon}){
+function LightOn(){
+  const {bulbon}=useContext(BulbContext);
   return(
     <div>
       {bulbon ? "bulbOn": "bulbOff"}
@@ -28,7 +35,8 @@ function LightOn({bulbon}){
   )
 }
 
-function LightSwitch({setbulbon}){
+function LightSwitch(){
+  const {setbulbon}=useContext(BulbContext);
   return(
     <button onClick={()=>{
       setbulbon(current=>!current)
@@ -36,6 +44,4 @@ function LightSwitch({setbulbon}){
   )
 }
 
-// Here in prop drilling all the state variables are defined at the top and passed down using props
-//Problem -- Here if only the last child needs the state variable then also it needs to be passed between all the intermediate components 
 export default App
