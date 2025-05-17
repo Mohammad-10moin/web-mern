@@ -1,16 +1,17 @@
 import { useState } from 'react'
 
-function App() {
+// Now let's understand prop drilling 
 
+function App() {
+  const [bulbon,setbulbon]=useState(true);
   return (
     <div>
-      <Light/>
+      <Light bulbon={bulbon} setbulbon={setbulbon}/>
     </div>
   )
 }
 
-function Light(){
-  const [bulbon,setbulbon]=useState(true);
+function Light({bulbon,setbulbon}){
   return(
     <div>
       <LightOn bulbon={bulbon}/>
@@ -35,5 +36,6 @@ function LightSwitch({setbulbon}){
   )
 }
 
-// Here by rolling up the state and passing the state variable as props to the children we can utilize the state variables inside the children by placing them in the parent
+// Here in prop drilling all the state variables are defined at the top and passed down using props
+//Problem -- Here if only the last child needs the state variable then also it needs to be passed between all the intermediate components 
 export default App
