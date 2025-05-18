@@ -1,34 +1,69 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function useCounter(){
-  const [count, setcount]=useState(0);
 
-  // function increase(){
-  //   setcount(c=>c+1);
-  // }
+function useFetch(url){
+  const [data,setdata]=useState({});
 
-  return{
-    count:count,
-    // increase:increase
-    setcount:setcount
+  async function getdata(){
+    const response=await fetch(url);
+    const jsonData=await response.json();
+    setdata(jsonData);
   }
 
+  useEffect(()=>{
+    getdata();
+  },[])
+
+  return{
+    data
+  }
 }
 
 function App() {
-// Let's understand custom hooks 
-// The custom hooks use the predefined hooks in them
-
-// Here rather than defining the state variable and function , we can instead use the below one
-
-const {count,setcount}=useCounter();
+  const {data}=useFetch("https://jsonplaceholder.typicode.com/todos/1")
   return (
   <div>
-    {/* <button onClick={increase}>Increase {count}</button> */}
-    <button onClick={()=>{setcount(c=>c+1)}}>Increase {count}</button>
+    {JSON.stringify(data)}
   </div>
 
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+// const {count,setcount}=useCounter();
+
+    {/* <button onClick={increase}>Increase {count}</button>
+    <button onClick={()=>{setcount(c=>c+1)}}>Increase {count}</button> */}
+
+
+
+// function useCounter(){
+//   const [count, setcount]=useState(0);
+
+//   // function increase(){
+//   //   setcount(c=>c+1);
+//   // }
+
+//   return{
+//     count:count,
+//     // increase:increase
+//     setcount:setcount
+//   }
+
+// }
+
+
+
+
+
 
 export default App
