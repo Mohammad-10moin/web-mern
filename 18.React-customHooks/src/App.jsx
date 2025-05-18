@@ -1,32 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useRef } from 'react'
 
 
-function useFetch(url){
-  const [data,setdata]=useState({});
 
-  async function getdata(){
-    const response=await fetch(url);
-    const jsonData=await response.json();
-    setdata(jsonData);
-  }
+// Now let's understand usePrev custom hook
+
+function usePrev(value){
+  const ref=useRef();
 
   useEffect(()=>{
-    getdata();
-  },[url])
+    ref.current=value
+  },[value])
 
-  return{
-    data
-  }
+  return ref.current
+  // Here we need to know that in React the 
+  // 1st the return statement gets executed first and then the useEffect hooks gets called first 
+  // and also remember that the first value inside useEffect hook can't be async function.
+
 }
 
 function App() {
-  const [count,setcount]=useState(1);
-  const {data}=useFetch("https://jsonplaceholder.typicode.com/todos/"+count)
+  const [count,setcount]=useState(0);
+  const prev=usePrev(count);
   return (
   <div>
-    <button onClick={()=>{setcount(c=>c+1)}}>Todo number{count}</button>
+    <b>current value {count}</b>
     <br />
-    {JSON.stringify(data)}
+    <button onClick={()=>{setcount(count+1)}}>add</button>
+    <br />
+    <b>The previous value is {prev}</b>
   </div>
 
   )
@@ -35,6 +36,50 @@ function App() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const [count,setcount]=useState(1);
+  // const {data}=useFetch("https://jsonplaceholder.typicode.com/todos/"+count)
+
+
+    {/* <button onClick={()=>{setcount(c=>c+1)}}>Todo number{count}</button>
+    <br />
+    {JSON.stringify(data)} */}
+
+
+
+// function useFetch(url){
+//   const [data,setdata]=useState({});
+
+//   async function getdata(){
+//     const response=await fetch(url);
+//     const jsonData=await response.json();
+//     setdata(jsonData);
+//   }
+
+//   useEffect(()=>{
+//     getdata();
+//   },[url])
+
+//   return{
+//     data
+//   }
+// }
 
 
 
