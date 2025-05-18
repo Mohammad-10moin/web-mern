@@ -12,7 +12,7 @@ function useFetch(url){
 
   useEffect(()=>{
     getdata();
-  },[])
+  },[url])
 
   return{
     data
@@ -20,9 +20,12 @@ function useFetch(url){
 }
 
 function App() {
-  const {data}=useFetch("https://jsonplaceholder.typicode.com/todos/1")
+  const [count,setcount]=useState(1);
+  const {data}=useFetch("https://jsonplaceholder.typicode.com/todos/"+count)
   return (
   <div>
+    <button onClick={()=>{setcount(c=>c+1)}}>Todo number{count}</button>
+    <br />
     {JSON.stringify(data)}
   </div>
 
