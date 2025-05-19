@@ -1,33 +1,56 @@
-import { useEffect, useState,useRef } from 'react'
+import { useEffect, useState,useRef, useCallback} from 'react'
 
 
 
-// Now let's understand usePrev custom hook
 
-function usePrev(value){
+
+
+
+
+// Now let's understand useDebounce custom hook 
+
+
+function useDebounce(funcName,delay){
   const ref=useRef();
-
-  useEffect(()=>{
-    ref.current=value
-  },[value])
-
-  return ref.current
-  // Here we need to know that in React the 
-  // 1st the return statement gets executed first and then the useEffect hooks gets called first 
-  // and also remember that the first value inside useEffect hook can't be async function.
-
+  function debouncedFunction() {
+      clearTimeout(ref.current);
+      ref.current=setTimeout(funcName,delay);
+  }
+  return debouncedFunction
 }
 
+
+function useDebounce1(func, delay) {
+  const timerRef = useRef();
+
+  // Return a debounced function
+  return useCallback((...args) => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      func(...args);
+    }, delay);
+  }, [func, delay]);
+}
+
+
+
 function App() {
-  const [count,setcount]=useState(0);
-  const prev=usePrev(count);
+
+  async function backendCall(){
+      const response=await fetch("https://jsonplaceholder.typicode.com/todos/1")
+      const jsondata=await response.json()
+      console.log(JSON.stringify(jsondata));
+  }
+
+  function call(){
+    console.log("calling backend");
+  }
+  const debouncedata=useDebounce(backendCall,300);
+
   return (
   <div>
-    <b>current value {count}</b>
-    <br />
-    <button onClick={()=>{setcount(count+1)}}>add</button>
-    <br />
-    <b>The previous value is {prev}</b>
+    <input type="text" onChange={debouncedata}/>
+
   </div>
 
   )
@@ -47,9 +70,32 @@ function App() {
 
 
 
+  // const [count,setcount]=useState(0);
+  // const prev=usePrev(count);
 
 
+    {/* <b>current value {count}</b>
+    <br />
+    <button onClick={()=>{setcount(count+1)}}>add</button>
+    <br />
+    <b>The previous value is {prev}</b> */}
 
+
+// Now let's understand usePrev custom hook
+
+function usePrev(value){
+  const ref=useRef();
+
+  useEffect(()=>{
+    ref.current=value
+  },[value])
+
+  return ref.current
+  // Here we need to know that in React the 
+  // 1st the return statement gets executed first and then the useEffect hooks gets called first 
+  // and also remember that the first value inside useEffect hook can't be async function.
+
+}
 
 
 
