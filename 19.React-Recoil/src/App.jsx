@@ -6,13 +6,15 @@ function App() {
   return (
     <div>
       <Increase setcount={setcount}/>
+      <br />
       <Decrease setcount={setcount}/>
+      <br />
       {count}
     </div>
   )
 }
 
-function Increase(setcount){
+function Increase({setcount}){
   return(
     <button onClick={()=>{
       setcount(c=>c+1)
@@ -21,7 +23,7 @@ function Increase(setcount){
 }
 
 
-function Decrease(setcount){
+function Decrease({setcount}){
   return(
     <button onClick={()=>{
       setcount(c=>c-1)
