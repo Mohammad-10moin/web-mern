@@ -4,15 +4,33 @@ import { useCountStore } from './store'
 
 function App() {
 
-  const count= useCountStore((state)=>state.count);
-  const increase =useCountStore((state)=>state.increment);
+  // const count= useCountStore((state)=>state.count);
+  // const increase =useCountStore((state)=>state.increment);
   return (
     <div>
-      {count}
-      <br />
-      <button onClick={increase}>Increase</button>
+      <Counter/>
+      <Buttons/>
     </div>
   )
 }
 
+function Counter(){
+  const count= useCountStore((state)=>state.count);
+  return(
+    <div>
+      {count}
+    </div>
+  )
+}
+
+function Buttons(){
+const increase =useCountStore((state)=>state.increment);
+  return (
+    <div>
+      <button onClick={increase}>Increase</button>
+      <br />
+      <button onClick={useCountStore((state)=>state.decrement)}>Decrease</button>
+    </div>
+  )
+}
 export default App
