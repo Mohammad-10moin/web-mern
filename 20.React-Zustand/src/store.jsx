@@ -7,5 +7,9 @@ export const useCountStore=create((set)=>({
     },
     decrement: ()=>{
         set((state)=>({count:state.count-1}))
+    },
+    AsyncIncrement: async()=>{
+        await new Promise((resolve)=>setTimeout(resolve,5000));
+        set((state)=>({count:state.count+5}));
     }
 }))

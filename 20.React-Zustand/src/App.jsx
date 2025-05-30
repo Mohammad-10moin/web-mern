@@ -30,6 +30,8 @@ const increase =useCountStore((state)=>state.increment);
       <button onClick={increase}>Increase</button>
       <br />
       <button onClick={useCountStore((state)=>state.decrement)}>Decrease</button>
+      <br />
+      <button onClick={useCountStore((state)=>state.AsyncIncrement)}>Ainc</button>
     </div>
   )
 }
