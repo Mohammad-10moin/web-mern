@@ -1,10 +1,16 @@
 
 import './App.css'
+import { useCountStore } from './store'
 
 function App() {
 
+  const count= useCountStore((state)=>state.count);
+  const increase =useCountStore((state)=>state.increment);
   return (
-    <div className='App'>
+    <div>
+      {count}
+      <br />
+      <button onClick={increase}>Increase</button>
     </div>
   )
 }
