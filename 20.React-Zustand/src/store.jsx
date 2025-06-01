@@ -13,3 +13,11 @@ export const useCountStore=create((set)=>({
         set((state)=>({count:state.count+5}));
     }
 }))
+
+
+// further we can use middlewares in zustand such as persist , devtools , immer 
+
+// persist -- to perist the state across re-renders --Saves state to localStorage, sessionStorage, or IndexedDB
+
+// devtools -- t0 use redux toolkit devtools inside the zustand 
+// immer -- Enables writing mutative code while maintaining immutability under the hood
