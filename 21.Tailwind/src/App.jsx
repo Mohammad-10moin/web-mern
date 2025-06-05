@@ -2,13 +2,15 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { Button } from './components/Button'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div className='flex justify-center'>
+    <div className='bg-[#002959] h-screen flex justify-center items-center'>
+      <Button/>
+      {/* <div className='flex justify-center'>
         <div className='bg-orange-400'>child1</div>
         <div className='bg-blue-400'>child2</div>
         <div className='bg-green-400'>child3</div>
@@ -29,8 +31,8 @@ function App() {
         <div className='bg-orange-400 sm:col-span-6'>Grid1</div>
         <div className='bg-blue-400 sm:col-span-3'>Grid2</div>
         <div className='bg-green-400 sm:col-span-3'>Grid3</div>
-      </div>
-    </>
+      </div> */}
+    </div>
   )
 }
 
