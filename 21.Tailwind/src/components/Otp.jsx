@@ -12,12 +12,22 @@ export const Otp= ()=>{
         if(isNaN(value)){
             return;
         }
+        const newValue= value.trim();
         const newArr= [...inputArr];
 
-        newArr[index]=value.slice(-1);
+        newArr[index]=newValue.slice(-1);
         setinputArr(newArr);
-        refArr.current[index+1]?.focus();
-        console.log(value);
+        newValue && refArr.current[index+1]?.focus();
+        console.log(newValue);
+    }
+
+    const handleOnKeyDown = (event,index)=>{
+        // console.log(event);
+        // console.log(refArr.current[index]);
+        // if(event.key=="Backspace" && refArr.current[index].value==""){
+        if(event.key=="Backspace" && !event.target.value){
+            refArr.current[index-1]?.focus();
+        }
     }
     return(
         <div>
@@ -31,8 +41,13 @@ export const Otp= ()=>{
                     }}
                     type="text" 
                     className=" m-1 w-[40px] h-[50px] rounded-2xl bg-blue-800 px-4 text-white"
+                    
                     onChange={(e)=>{
                         handleOnChange(e.target.value , index);
+                    }}
+
+                    onKeyDown={(e)=>{
+                        handleOnKeyDown(e,index);
                     }}
                     />
                 })
