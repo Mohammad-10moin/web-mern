@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { Button } from './components/Button'
 import { InputBox } from './components/Input'
+import { Otp } from './components/Otp'
 
 
 function App() {
@@ -9,8 +10,7 @@ function App() {
 
   return (
     <div className='bg-[#002959] h-screen flex justify-center items-center'>
-      <InputBox/>
-      <Button/>
+      <Otp/>
     </div>
   )
 }
